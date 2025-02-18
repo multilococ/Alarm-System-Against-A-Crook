@@ -19,7 +19,6 @@ public class AlarmSystem : MonoBehaviour
         _alarmSource = GetComponent<AudioSource>();
         _alarmSource.Stop();
         _alarmSource.volume = _minAlarmVolume;
-        _isAlarmEnabled = false;
     }
 
     private void OnTriggerEnter(Collider other)
