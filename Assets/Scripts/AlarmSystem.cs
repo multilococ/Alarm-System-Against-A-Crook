@@ -6,18 +6,17 @@ public class AlarmSystem : MonoBehaviour
 {
     [SerializeField] private AudioSource _alarmSource;
 
-    WaitForSeconds _waitSondsForChangingVolume;
+    private WaitForSeconds _waitSondsForChangingVolume;
 
     private float _minAlarmVolume = 0f;
     private float _maxAlarmVolume = 1.0f;
     private float _alarmVolumeDelta = 0.01f;
     private float _alarmVolumeDelay = 0.1f;
 
-    private bool _isAlarmEnabled;
+    private Coroutine _alarmCurotine;
 
-    private void Start()
+    private void Awake()
     {
-        _isAlarmEnabled = false;
         _alarmSource = GetComponent<AudioSource>();
         _alarmSource.Stop();
         _alarmSource.volume = _minAlarmVolume;
@@ -27,28 +26,29 @@ public class AlarmSystem : MonoBehaviour
     public void PlayAlarm()
     {
         _alarmSource.Play();
-        _isAlarmEnabled = true;
-        StartCoroutine(ChangeAlarmVolume(_maxAlarmVolume));
+        _alarmCurotine = StartCoroutine(ChangeAlarmVolume(_maxAlarmVolume));
     }
 
     public void StopAlarm()
     {
-        _isAlarmEnabled = false;
+        if (_alarmCurotine != null)
+        {
+            StopCoroutine(_alarmCurotine);
+        }
+
         StartCoroutine(ChangeAlarmVolume(_minAlarmVolume));
     }
 
     private IEnumerator ChangeAlarmVolume(float targetValue)
     {
-        bool isCurrentAlarmState = _isAlarmEnabled;
+        while (_alarmSource.volume != targetValue)
+        {
+            _alarmSource.volume = Mathf.MoveTowards(_alarmSource.volume, targetValue, _alarmVolumeDelta);
 
-            while (_alarmSource.volume != targetValue && isCurrentAlarmState == _isAlarmEnabled)
-            {
-                _alarmSource.volume = Mathf.MoveTowards(_alarmSource.volume, targetValue, _alarmVolumeDelta);
+            yield return _waitSondsForChangingVolume;
+        }
 
-                yield return _waitSondsForChangingVolume;
-            }
-
-        if (isCurrentAlarmState == false)
+        if (_alarmSource.volume == _minAlarmVolume)
         {
             _alarmSource.Stop();
         }
