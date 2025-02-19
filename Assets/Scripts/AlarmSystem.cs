@@ -25,6 +25,9 @@ public class AlarmSystem : MonoBehaviour
 
     public void PlayAlarm()
     {
+        if (_alarmCurotine != null)
+            StopCoroutine(_alarmCurotine);
+
         _alarmSource.Play();
         _alarmCurotine = StartCoroutine(ChangeAlarmVolume(_maxAlarmVolume));
     }
@@ -32,11 +35,9 @@ public class AlarmSystem : MonoBehaviour
     public void StopAlarm()
     {
         if (_alarmCurotine != null)
-        {
             StopCoroutine(_alarmCurotine);
-        }
 
-        StartCoroutine(ChangeAlarmVolume(_minAlarmVolume));
+        _alarmCurotine = StartCoroutine(ChangeAlarmVolume(_minAlarmVolume));
     }
 
     private IEnumerator ChangeAlarmVolume(float targetValue)
