@@ -35,7 +35,7 @@ public class Mover : MonoBehaviour
         {
             if (transform.position.IsEnoughClose(_wayPoints[_currentWayPointIndex].position, _minDistanceToWayPoint))
             {
-                _currentWayPointIndex = (_currentWayPointIndex + 1) % _wayPoints.Length;
+                _currentWayPointIndex = ++_currentWayPointIndex % _wayPoints.Length;
             }
 
             _currentWayPoint = _wayPoints[_currentWayPointIndex];
