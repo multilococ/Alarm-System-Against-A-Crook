@@ -39,16 +39,16 @@ public class AlarmSystem : MonoBehaviour
 
     private IEnumerator ChangeAlarmVolume(float targetValue)
     {
-        bool isCurrentAlarmEnabledState = _isAlarmEnabled;
+        bool isCurrentAlarmState = _isAlarmEnabled;
 
-            while (_alarmSource.volume != targetValue && isCurrentAlarmEnabledState == _isAlarmEnabled)
+            while (_alarmSource.volume != targetValue && isCurrentAlarmState == _isAlarmEnabled)
             {
                 _alarmSource.volume = Mathf.MoveTowards(_alarmSource.volume, targetValue, _alarmVolumeDelta);
 
                 yield return _waitSondsForChangingVolume;
             }
 
-        if (isCurrentAlarmEnabledState == false)
+        if (isCurrentAlarmState == false)
         {
             _alarmSource.Stop();
         }

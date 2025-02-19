@@ -753,7 +753,7 @@ MonoBehaviour:
   - {fileID: 10248007}
   - {fileID: 1579482246}
   - {fileID: 175771212}
-  _speed: 3
+  _speed: 2
 --- !u!114 &995944765
 MonoBehaviour:
   m_ObjectHideFlags: 0

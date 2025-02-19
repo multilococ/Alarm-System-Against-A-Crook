@@ -15,9 +15,9 @@ public class Mover : MonoBehaviour
 
     private void Update()
     {
+        transform.LookAt(_currentWayPoint);
         ChooseWayPoint();
         Move();
-        transform.LookAt(_currentWayPoint);
     }
 
     private void Move()
